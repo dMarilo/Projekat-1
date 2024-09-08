@@ -1,0 +1,51 @@
+<!-- comments.component.html -->
+<section>
+    <div>
+      <div>
+        <h2>Discussion ({{ comments.length }})</h2>
+      </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mb-6">
+      <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <label for="comment" class="sr-only">Your comment</label>
+        <textarea formControlName="content" id="comment" rows="6"
+          class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+          placeholder="Write a comment..." required></textarea>
+      </div>
+      <button type="submit"
+        class="bg-blue-300 inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+        Post comment
+      </button>
+    </form>
+    @for(comment of comments; track comment){
+    <article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+      <footer class="flex justify-between items-center mb-2">
+        <div class="flex items-center">
+          <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+            @if(comment.user?.profile_pic)
+            {
+              <img class="mr-2 w-6 h-6 rounded-full" [src]="comment.user?.profile_pic || 'default-avatar.png'" alt="User Avatar">
+            }
+            @else
+            {
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="size-12">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            }
+            {{ comment.user?.first_name }} {{ comment.user?.last_name }}
+          </p>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            {{ comment.created_at | date:'mediumDate' }}
+          </p>
+        </div>
+      </footer>
+      <p class="text-gray-500 dark:text-gray-400">{{ comment.content }}</p>
+      <button type="button" class="inline-flex items-center text-red-600 hover:text-red-700 focus:outline-none">
+        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+        </svg>
+        Like
+      </button>
+    </article>
+}
+  </section>

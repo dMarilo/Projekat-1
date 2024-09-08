@@ -1,0 +1,23 @@
+<!-- src/app/users/users.component.html -->
+
+<div class="w-full h-full bg-white p-8">
+  <h1 class="text-4xl font-bold">Users</h1>
+  <div class="mt-4">
+    <div *ngFor="let user of users" class="bg-gray-100 p-4 mb-4 rounded-lg shadow-md">
+      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>User Type:</strong> {{ user.user_type }}</p>
+
+      <button
+        *ngIf="user.user_type === 'pending'"
+        (click)="confirmAsBlogger(user.id)"
+        class="mt-2 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700"
+        [disabled]="loading"
+      >
+        Confirm as Blogger
+      </button>
+    </div>
+  </div>
+</div>
+
+

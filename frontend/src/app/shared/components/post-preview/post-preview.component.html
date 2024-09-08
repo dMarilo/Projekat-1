@@ -1,0 +1,62 @@
+<section class="relative w-full justify-center post-wrapper bg-cover" style="background-image: url('assets/cover-auth.avif');">
+  <app-navbar></app-navbar>
+  <div class="relative w-full h-[50vh] bg-cover bg-center  my-8">
+  @if(post){
+      <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <img class="w-full h-64 object-cover" [src]="'http://localhost:8000/storage/' + post.image" alt="{{ post.title }}">
+          <div class="p-6">
+              <h1 class="text-3xl font-bold text-gray-800">{{ post.title }}</h1>
+              <p class="text-gray-600 text-sm">By <span class="font-semibold">{{ post.users?.first_name }}</span> | <span>{{ post.created_at | date:'mediumDate' }}</span></p>
+              <p class="mt-4 text-gray-700 text-2xl">{{ post.shortDescription }}</p>
+              <div class="mt-6">
+                  <div  [innerHTML]="post.content"></div>
+              </div>
+              <div class="mt-6 flex items-center">
+                  <div class="flex items-center">
+                    @if(post.users?.profile_pic)
+                    {
+                      <img class="w-10 h-10 rounded-full object-cover" [src]="'http://localhost:8000/storage/' + post.users?.profile_pic" alt="Author Avatar">
+                    }
+                    @else
+                    {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="size-12">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                      <div class="ml-4">
+                          <p class="text-gray-800 font-semibold">{{ post.users?.first_name }} {{ post.users?.last_name }}</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="mt-6">
+                  <h2 class="text-2xl font-bold text-gray-800">Categories</h2>
+                  <div class="flex flex-wrap mt-2">
+                      @for(category of post.categories; track category){
+                      <span class="bg-gray-200 text-gray-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded">{{ category.name }}</span>
+                      }
+                  </div>
+              </div>
+              <div class="mt-6 flex items-center space-x-4 grid grid-cols-4">
+                <p class="text-gray-800 font-semibold">Views: {{ post.views }}</p>
+                @if(isHot){
+                  <span class="bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded">Hot Topic</span>
+                }
+                @if(isPopular){
+                  <span class="bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded">Trending Blogger</span>
+                }
+                <button (click)="addLike()" class="inline-flex items-center text-red-600 hover:text-red-700 focus:outline-none justify-end">
+                    <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                    </svg>
+                    Like {{ post.likes }}
+                </button>
+              </div>
+              <div class="mt-6">
+                  <app-comments [postSlug]="postSlug"></app-comments>
+              </div>
+          </div>
+      </div>
+  }
+  </div>
+
+</section>
